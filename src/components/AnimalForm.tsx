@@ -1,0 +1,170 @@
+import { useEffect, useState } from "react";
+import type { AnimalFormData } from "../types/animal";
+
+interface Props {
+    onSubmit: (data: AnimalFormData) => void | Promise<void>;
+    initialData?: Partial<AnimalFormData>;
+    onCancel: () => void;
+    isCreating: boolean;
+}
+
+export default function AnimalForm({ onSubmit, initialData, onCancel, isCreating }: Props) {
+    const [formData, setFormData] = useState<AnimalFormData>({
+        especie: initialData?.especie ?? "",
+        raca: initialData?.raca ?? "",
+        sexo: initialData?.sexo ?? "",
+        idade_aproximada: initialData?.idade_aproximada ?? "",
+        tamanho: initialData?.tamanho ?? "",
+        urlImagem: initialData?.urlImagem ?? "",
+    });
+
+    useEffect(() => {
+        setFormData({
+            especie: initialData?.especie ?? "",
+            raca: initialData?.raca ?? "",
+            sexo: initialData?.sexo ?? "",
+            idade_aproximada: initialData?.idade_aproximada ?? "",
+            tamanho: initialData?.tamanho ?? "",
+            urlImagem: initialData?.urlImagem ?? "",
+        });
+    }, [initialData]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        onSubmit(formData);
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/* Espécie */}
+            <div className="text-left">
+                <label htmlFor="especie" className="block mb-1 font-medium text-[#34495e]">
+                    Espécie <span className="text-red-500">*</span>
+                </label>
+                <input
+                    id="especie"
+                    name="especie"
+                    placeholder="Ex: Cachorro, Gato, Pássaro"
+                    value={formData.especie}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-[#e9ecef] rounded-[30px] text-[1rem]
+                     bg-[#f8f9fa] transition focus:border-[#2ecc71] focus:bg-white
+                     focus:shadow-[0_0_0_4px_rgba(46,204,113,0.1)] outline-none"
+                />
+            </div>
+
+            {/* Raça */}
+            <div className="text-left">
+                <label htmlFor="raca" className="block mb-1 font-medium text-[#34495e]">
+                    Raça <span className="text-red-500">*</span>
+                </label>
+                <input
+                    id="raca"
+                    name="raca"
+                    placeholder="Raça do animal"
+                    value={formData.raca}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-[#e9ecef] rounded-[30px] text-[1rem]
+                     bg-[#f8f9fa] transition focus:border-[#2ecc71] focus:bg-white
+                     focus:shadow-[0_0_0_4px_rgba(46,204,113,0.1)] outline-none"
+                />
+            </div>
+
+            {/* Sexo */}
+            <div className="text-left">
+                <label htmlFor="sexo" className="block mb-1 font-medium text-[#34495e]">
+                    Sexo
+                </label>
+                <input
+                    id="sexo"
+                    name="sexo"
+                    placeholder="Ex: Macho ou Fêmea"
+                    value={formData.sexo}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-[#e9ecef] rounded-[30px] text-[1rem]
+                     bg-[#f8f9fa] transition focus:border-[#2ecc71] focus:bg-white
+                     focus:shadow-[0_0_0_4px_rgba(46,204,113,0.1)] outline-none"
+                />
+            </div>
+
+            {/* Idade */}
+            <div className="text-left">
+                <label htmlFor="idade_aproximada" className="block mb-1 font-medium text-[#34495e]">
+                    Idade
+                </label>
+                <input
+                    id="idade_aproximada"
+                    name="idade_aproximada"
+                    type="number"
+                    placeholder="Ex: 3"
+                    value={String(formData.idade_aproximada ?? "")}
+                    onChange={handleChange}
+                    min={0}
+                    className="w-full px-4 py-3 border border-[#e9ecef] rounded-[30px] text-[1rem]
+                     bg-[#f8f9fa] transition focus:border-[#2ecc71] focus:bg-white
+                     focus:shadow-[0_0_0_4px_rgba(46,204,113,0.1)] outline-none"
+                />
+            </div>
+
+            {/* Tamanho */}
+            <div className="text-left">
+                <label htmlFor="tamanho" className="block mb-1 font-medium text-[#34495e]">
+                    Tamanho
+                </label>
+                <input
+                    id="tamanho"
+                    name="tamanho"
+                    placeholder="Ex: Pequeno, Médio ou Grande"
+                    value={formData.tamanho}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-[#e9ecef] rounded-[30px] text-[1rem]
+                     bg-[#f8f9fa] transition focus:border-[#2ecc71] focus:bg-white
+                     focus:shadow-[0_0_0_4px_rgba(46,204,113,0.1)] outline-none"
+                />
+            </div>
+
+            {/* URL da Foto */}
+            <div className="text-left">
+                <label htmlFor="urlImagem" className="block mb-1 font-medium text-[#34495e]">
+                    URL da Foto
+                </label>
+                <input
+                    id="urlImagem"
+                    name="urlImagem"
+                    placeholder="URL da imagem"
+                    value={formData.urlImagem}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-[#e9ecef] rounded-[30px] text-[1rem]
+                     bg-[#f8f9fa] transition focus:border-[#2ecc71] focus:bg-white
+                     focus:shadow-[0_0_0_4px_rgba(46,204,113,0.1)] outline-none"
+                />
+            </div>
+
+            {/* Botões */}
+            <div className="flex justify-end gap-4 mt-4 max-[768px]:flex-col">
+                <button
+                    type="button"
+                    onClick={onCancel}
+                    className="h-[48px] px-6 rounded-[30px] font-medium text-[15px] transition
+                     bg-[#e0e0e0] text-[#34495e] hover:bg-[#d5d5d5] max-[768px]:w-full"
+                >
+                    Cancelar
+                </button>
+                <button
+                    type="submit"
+                    className="h-[48px] px-6 rounded-[30px] font-medium text-[15px] transition
+                     bg-[#2ecc71] text-white hover:bg-[#27ae60] max-[768px]:w-full"
+                >
+                    {isCreating ? "Criar" : "Atualizar"}
+                </button>
+            </div>
+        </form>
+    );
+}
