@@ -68,7 +68,11 @@ export default function AnimalList() {
 
     const handleCreate = async (payload: AnimalFormData) => {
         try {
-            const saved = await createAnimal(payload);
+            const numericPayload = {
+                ...payload,
+                idade_aproximada: Number(payload.idade_aproximada)
+            };
+            const saved = await createAnimal(numericPayload);
             setAnimals(prev => [...prev, saved]);
             setIsCreating(false);
             setSelectedAnimal(null);
@@ -111,7 +115,7 @@ export default function AnimalList() {
             <div className="w-full max-w-none p-5 m-0 font-[Poppins,sans-serif]">
                 {/* Header */}
                 <div className="text-center mb-10">
-                    <h1 className="m-0 font-semibold text-[2.5em] text-[#34495e]">Cadastro de Animais Abandonados</h1>
+                    <h1 className="m-0 font-semibold text-[2.5em] text-[#34495e] bg-gradient-to-r from-primary">Cadastro de Animais Abandonados</h1>
                     <p className="mt-[5px] text-[1.1em] text-[#7f8c8d] font-normal">
                         Gerencie as informações dos animais encontrados e resgatados.
                     </p>
@@ -144,7 +148,7 @@ export default function AnimalList() {
                         </div>
 
                         <button
-                            className="h-12 px-6 inline-flex items-center justify-center rounded-full font-medium text-base transition-colors duration-200 cursor-pointer flex-shrink-0 bg-green-500 text-white hover:bg-green-600"
+                            className="h-12 px-6 inline-flex items-center justify-center rounded-full font-medium text-base transition-colors duration-200 cursor-pointer flex-shrink-0 bg-green-500 text-white hover:bg-green-600 bg-[#2ecc71]"
                             onClick={handleOpenCreateForm}
                         >
                             + Novo Animal
