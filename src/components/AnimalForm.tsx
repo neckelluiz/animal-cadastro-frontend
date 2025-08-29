@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { AnimalFormData } from "../types/animal";
+import ImageUploader from "./ImagemUpload";
 
 interface Props {
     onSubmit: (data: AnimalFormData) => void | Promise<void>;
@@ -34,6 +35,10 @@ export default function AnimalForm({ onSubmit, initialData, onCancel, isCreating
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    const handleImageUpload = (imageUrl: string) => {
+        setFormData(prev => ({ ...prev, urlImagem: imageUrl }));
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSubmit(formData);
@@ -41,7 +46,7 @@ export default function AnimalForm({ onSubmit, initialData, onCancel, isCreating
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {/* Espécie */}
+
             <div className="text-left">
                 <label htmlFor="especie" className="block mb-1 font-medium text-[#34495e]">
                     Espécie
@@ -59,7 +64,6 @@ export default function AnimalForm({ onSubmit, initialData, onCancel, isCreating
                 />
             </div>
 
-            {/* Raça */}
             <div className="text-left">
                 <label htmlFor="raca" className="block mb-1 font-medium text-[#34495e]">
                     Raça
@@ -77,7 +81,6 @@ export default function AnimalForm({ onSubmit, initialData, onCancel, isCreating
                 />
             </div>
 
-            {/* Sexo */}
             <div className="text-left">
                 <label htmlFor="sexo" className="block mb-1 font-medium text-[#34495e]">
                     Sexo
@@ -93,12 +96,10 @@ export default function AnimalForm({ onSubmit, initialData, onCancel, isCreating
                 >
                     <option value="">Selecione o sexo</option>
                     <option value="MACHO">Macho</option>
-                    <option value="FEMEA">Femea</option>
-
+                    <option value="FEMEA">Fêmea</option>
                 </select>
             </div>
 
-            {/* Idade */}
             <div className="text-left">
                 <label htmlFor="idade_aproximada" className="block mb-1 font-medium text-[#34495e]">
                     Idade
@@ -117,7 +118,6 @@ export default function AnimalForm({ onSubmit, initialData, onCancel, isCreating
                 />
             </div>
 
-            {/* Tamanho */}
             <div className="text-left">
                 <label htmlFor="tamanho" className="block mb-1 font-medium text-[#34495e]">
                     Tamanho
@@ -130,8 +130,7 @@ export default function AnimalForm({ onSubmit, initialData, onCancel, isCreating
                     required
                     className="w-full px-4 py-3 border border-[#e9ecef] rounded-[30px] text-[1rem]
                bg-[#f8f9fa] transition
-              outline-none "
-                >
+              outline-none ">
                     <option value="">Selecione um tamanho</option>
                     <option value="PEQUENO">Pequeno</option>
                     <option value="MEDIO">Médio</option>
@@ -139,21 +138,11 @@ export default function AnimalForm({ onSubmit, initialData, onCancel, isCreating
                 </select>
             </div>
 
-            {/* URL da Foto */}
             <div className="text-left">
-                <label htmlFor="urlImagem" className="block mb-1 font-medium text-[#34495e]">
+                <label htmlFor="imageUploader" className="block mb-1 font-medium text-[#34495e]">
                     URL da Foto
                 </label>
-                <input
-                    id="urlImagem"
-                    name="urlImagem"
-                    placeholder="URL da imagem"
-                    value={formData.urlImagem}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-[#e9ecef] rounded-[30px] text-[1rem]
-                     bg-[#f8f9fa] transition focus:border-[#2ecc71] focus:bg-white
-                     focus:shadow-[0_0_0_4px_rgba(46,204,113,0.1)] outline-none"
-                />
+                <ImageUploader onImageUpload={handleImageUpload}/>
             </div>
 
             <div className="flex justify-end gap-4 mt-4 max-[768px]:flex-col">
